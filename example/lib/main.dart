@@ -164,8 +164,6 @@ class MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
         return const ExampleTwo();
       case Example.three:
         return const ExampleThree();
-      default:
-        return ExampleOne();
     }
   }
 

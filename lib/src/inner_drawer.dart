@@ -190,7 +190,7 @@ class InnerDrawerState extends State<InnerDrawer>
     });
     if (widget.colorTransitionChild != null) {
       _colorTransitionChild = ColorTween(
-        begin: widget.colorTransitionChild!.withOpacity(0),
+        begin: widget.colorTransitionChild!.withValues(alpha: 0),
         end: widget.colorTransitionChild,
       );
     }
@@ -198,7 +198,7 @@ class InnerDrawerState extends State<InnerDrawer>
     if (widget.colorTransitionScaffold != null) {
       _colorTransitionScaffold = ColorTween(
         begin: widget.colorTransitionScaffold,
-        end: widget.colorTransitionScaffold!.withOpacity(0),
+        end: widget.colorTransitionScaffold!.withValues(alpha: 0),
       );
     }
 
@@ -469,7 +469,7 @@ class InnerDrawerState extends State<InnerDrawer>
         boxShadow: widget.boxShadow ??
             [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 blurRadius: 5,
               )
             ],
@@ -512,15 +512,16 @@ class InnerDrawerState extends State<InnerDrawer>
       color: _colorTransitionScaffold.evaluate(_controller),
     );
     if (_controller.value != 1.0 && !widget.tapScaffoldEnabled) {
-      return BlockSemantics(
-        child: GestureDetector(
-          // On Android, the back button is used to dismiss a modal.
-          excludeFromSemantics: defaultTargetPlatform == TargetPlatform.android,
-          onTap: widget.onTapClose || !_swipe ? close : null,
-          child: Semantics(
-            label: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-            child: container,
-          ),
+      // No BlockSemantics here: the drawer is painted *behind* the scaffold,
+      // so blocking the semantics of everything painted before this cover
+      // would hide the open drawer from TalkBack/VoiceOver and UI automation.
+      return GestureDetector(
+        // On Android, the back button is used to dismiss a modal.
+        excludeFromSemantics: defaultTargetPlatform == TargetPlatform.android,
+        onTap: widget.onTapClose || !_swipe ? close : null,
+        child: Semantics(
+          label: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+          child: container,
         ),
       );
     }

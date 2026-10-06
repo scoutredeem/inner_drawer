@@ -1,3 +1,7 @@
+## [1.0.1] - 2026-10-06.
+
+* [Fixed] - Open drawer is reachable by screen readers and UI automation (removed BlockSemantics from the scaffold cover, which hid the drawer painted behind it).
+
 ## [1.0.0+1] - 2021-03-17.
 
 * [Fixed] - Improvement null safety support.
