@@ -156,7 +156,7 @@ class LeftChild extends StatelessWidget {
                     sigmaY: (10 - swipeOffset * 10)),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0),
+                    color: Colors.black.withValues(alpha: 0),
                   ),
                 ),
               )
